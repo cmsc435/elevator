@@ -7,7 +7,7 @@ public class Elevator {
   }
   
   public void selectLevel(int destination) {
-    //move elevator to the floor
+    //move elevator to the requested level
     
     //set the currentLevel
     currentLevel = destination;
