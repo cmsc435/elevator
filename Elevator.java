@@ -11,7 +11,7 @@ public class Elevator {
     if (destination == currentLevel) {
       //do nothing
     } else {
-      
+      destinationLevel = destination;
       //move elevator to the requested level
       
       //going down
@@ -38,5 +38,9 @@ public class Elevator {
   public int getStatus() {
     return status;
   }
+                 
+  public int getDestination() {
+    return destinationLevel;
+  }                
   
 }
