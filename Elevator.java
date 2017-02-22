@@ -14,6 +14,7 @@ public class Elevator {
     } else {
       /* selected level is before final level */
       if (destinationLevel > selected) {
+        status = 1;
         goTo(selected);
         goTo(destinationLevel);
         
