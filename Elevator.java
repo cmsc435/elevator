@@ -12,8 +12,6 @@ public class Elevator {
 
   }
   
-
-  
   public int getLevel() {
     return currentLevel;
   }
