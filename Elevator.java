@@ -8,27 +8,39 @@ public class Elevator {
     status = 0;
   }
   
-  public void selectLevel(int destination) {
-    if (destination == currentLevel) {
+  public void selectLevel(int selected) {
+    if (selected == currentLevel) {
       //do nothing
     } else {
-      destinationLevel = destination;
-      //move elevator to the requested level
-      
-      //going down
-      if ( (currentLevel > destination) && (status == 0) ) {
-      
-      
-      //going up
-      } else if ((currentLevel < destination) && (status == 0) {
+      /* selected level is before final level */
+      if (destinationLevel > selected) {
+        goTo(selected);
+        goTo(destinationLevel);
         
-        
+      /* selected level is after current destination */  
+      } else if (selected > destinationLevel) {
+        goTo(destinationLevel);
+        goTo(selected);
+     
+      } else if (selected == destinationLevel) {
+        goTo(selected);
       }
-                 
-      //TODO: check status not == 0
       
-      //set the currentLevel
-      currentLevel = destination;
+      destinationLevel = selected;
+      currentLevel = selected;
+    }
+  }
+  
+  public void goTo(int destination) {
+    /* elevator not doing anything */
+    if (status == 0) {
+      
+    /* elevator was going up */  
+    } else if (status > 0) {
+     
+    /* elevator was going down */  
+    } else {
+      
     }
   }
   
