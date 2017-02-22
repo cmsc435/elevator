@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -20,11 +21,13 @@ import java.awt.Canvas;
 public class UI extends JFrame {
 
 	private JPanel contentPane;
+	static ElevatorController control;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		control = new ElevatorController();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -138,6 +141,26 @@ public class UI extends JFrame {
 		JButton e1_2_button = new JButton("2");
 		e1_2_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// for outside buttons not inside, just a template
+				JButton el_2_button = (JButton) e.getSource();
+				// make new object out of button that was pressed to be able to access its attributes
+				Request.Direction dir = null;
+				// determine request direction based on text field of button object
+				if (el_2_button.getText().equals("DOWN")) {
+					dir = Request.Direction.DOWN;
+				}
+				else {
+					dir = Request.Direction.UP;
+				}
+				Request request = new Request(3, dir);
+				// floor hardcoded based on button name
+				try {
+					control.addRequest(request);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				// push request to elevatorcontroller to be delegated to elevators
 			}
 		});
 		e1_inside_panel.add(e1_2_button);
