@@ -5,6 +5,7 @@ public class Elevator {
 
   public Elevator() {
     currentLevel = 0; //should be initialized if we figure out what the default level is
+    status = 0;
   }
   
   public void selectLevel(int destination) {
