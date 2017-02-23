@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+
+
+// to do : create code for command line testing functionality of system or get gui working to be
+// able to test against that
+
+
 public class ElevatorController {
 	ArrayList<Request> requests;
 	Thread inputProcessor;
@@ -90,6 +96,7 @@ public class InputProcessor implements Runnable {
 		while(true) {
 			while (!requests.isEmpty()) {
 				int errChck = allocRequest(requests.remove(0));
+				// take care of error checking potentially
 			}
 		}
 	}

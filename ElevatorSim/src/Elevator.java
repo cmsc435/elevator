@@ -75,7 +75,7 @@ public class Elevator {
 		while (!floorReq.isEmpty()) {
 			currentRequest = floorReq.pollFirst();
 			direction = currentRequest.dir;
-			
+			// to do still
 		}
 		
 		idle();
@@ -109,6 +109,8 @@ public class Elevator {
 		currentLevel--;
 	}
 
+	
+	// review to ensure correctness and case-comprehensiveness
 	public class RequestComparator implements Comparator<Request> {
 		/** comparator for elevator's treeset of requests to allow for correct movements and
 		 * prioritization
