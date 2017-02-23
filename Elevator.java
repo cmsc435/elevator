@@ -9,40 +9,7 @@ public class Elevator {
   }
   
   public void selectLevel(int selected) {
-    if (selected == currentLevel) {
-      //do nothing
-    } else {
-      /* selected level is before final level */
-      if (destinationLevel > selected) {
-        status = 1;
-        goTo(selected);
-        goTo(destinationLevel);
-        
-      /* selected level is after current destination */  
-      } else if (selected > destinationLevel) {
-        goTo(destinationLevel);
-        goTo(selected);
-     
-      } else if (selected == destinationLevel) {
-        goTo(selected);
-      }
-      
-      destinationLevel = selected;
-      currentLevel = selected;
-    }
-  }
-  
-  public void goTo(int destination) {
-    /* elevator not doing anything */
-    if (status == 0) {
-      
-    /* elevator was going up */  
-    } else if (status > 0) {
-     
-    /* elevator was going down */  
-    } else {
-      
-    }
+
   }
   
   public int getLevel() {
