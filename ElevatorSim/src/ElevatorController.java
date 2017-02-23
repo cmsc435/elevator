@@ -16,21 +16,29 @@ public class ElevatorController {
 	public ElevatorController() {
 		// takes in all requests into treeset then delegates them to individual elevators
 		super();
+		System.out.println("ElevatorController initialized");
 		requests = new ArrayList<Request>();
 		inputProcessor = new Thread(new InputProcessor(), "Input Processor");
+		System.out.println("Input processing thread initialized");
 		left = new Elevator();
 		right = new Elevator();
 		inputProcessor.run();
+		System.out.println("ElevatorController started inputprocessor thread");
 	}
 
-
+	/** takes in up/down floor requests (outside elevator) from UI class 
+	 * and later delegates them to individual elevators based on their 
+	 * position and curr direction in allocRequest
+	 */
 	public void addRequest(Request req) {
-		// takes in up/down floor requests (outside elevator) from UI class 
-		// and delegates them to individual elevators based on their position and curr direction
 		requests.add(req);
 		
 	}
 	
+	/** takes in pickup requests (inside elevator) from UI class
+	 * and delegates them to elevator given in request object param,
+	 * not allocated based on allocRequest algorithm
+	 */
 	public void addDropRequest(Request req) throws Exception {
 		if (req.toDropOff != null) {
 			req.toDropOff.addFloor(req);
@@ -43,6 +51,7 @@ public class ElevatorController {
 	
 	// still needs to be finished
 	public synchronized int allocRequest(Request req) {
+		System.out.println("next message should be request allocation");
 		/** decides which elevator to allocate the request to; once allocated, that
 		 * elevator must be the one to service the request; prioritized based on each elevator's
 		 * current direction, if directions are the same, allocated based on closer floor, tiebreaker
@@ -55,20 +64,22 @@ public class ElevatorController {
 		int leftLevel = left.currentLevel;
 		int rightLevel = right.currentLevel;
 		
-		if (left.getDirection() == Elevator.Direction.IDLE 
-				&& right.getDirection() == Elevator.Direction.IDLE) {
+		if (leftdir == Elevator.Direction.IDLE 
+				&& rightdir == Elevator.Direction.IDLE) {
 			// if both idle, doesnt matter, give to left
 			left.addFloor(req);
+			System.out.println("request given to idle elevator " + left.elevatorid);
 		}
 		
-		else if (left.getDirection() == req.dir) {
+		else if (leftdir == req.dir) {
 			// if left elevator's direction matches the requests direction
-			if (right.getDirection() != Elevator.Direction.UP) {
+			if (rightdir != req.dir) {
 				if ((req.dir == Elevator.Direction.UP && leftLevel <= req.floor)
 						|| req.dir == Elevator.Direction.DOWN && leftLevel >= req.floor) {
 					// if request is in the left elevator's path, not behind it, 
-					// and right elevator is going down, then add to left
+					// and right elevator is going opposite way, then add to left
 					left.addFloor(req);
+					System.out.println("request give to elevator " + left.elevatorid + "since in left up path");
 				}
 				else {
 					// if request is behind left elevator on the elevator's path upward, determine which
@@ -95,6 +106,7 @@ public class InputProcessor implements Runnable {
 		// and allocates them to an elevator if so
 		while(true) {
 			while (!requests.isEmpty()) {
+				System.out.println("calling allocation of next request");
 				int errChck = allocRequest(requests.remove(0));
 				// take care of error checking potentially
 			}

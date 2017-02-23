@@ -6,6 +6,7 @@ public class Elevator {
 	
 	
 	public TreeSet<Request> floorReq;
+	public int elevatorid;
 	public int currentLevel;
 	public Request currentRequest;
 	public int destinationLevel;
@@ -33,6 +34,8 @@ public class Elevator {
 		 * number (closer floors over farther floors)
 		 */
 		currentRequest = null;
+		elevatorid = this.hashCode();
+		System.out.println("elevator " + elevatorid + "initialized");
 		idle();
 	}
 	
@@ -75,22 +78,47 @@ public class Elevator {
 		while (!floorReq.isEmpty()) {
 			currentRequest = floorReq.pollFirst();
 			direction = currentRequest.dir;
-			// to do still
+			destinationLevel = currentRequest.floor;
+			if (currentLevel < destinationLevel) {
+				// current request is above elevator's current level,
+				// move elevator up
+				goUp();
+			}
+			else if (currentLevel > destinationLevel) {
+				// current request is below elevator's current level,
+				// move elevator down
+				goDown();
+			}
+			else {
+				// elevator is at request level, request has been satisfied
+				System.out.println("elevator " + elevatorid + ": at floor " + currentLevel + " to " 
+				+ currentRequest.status.toString() + " request at floor " + destinationLevel);
+				// print statement for debugging
+				floorReq.remove(currentRequest);
+				currentRequest = null;
+				
+			}
 		}
-		
+		System.out.println("elevator " + elevatorid + ": out of requests. commencing idling");
 		idle();
 	}
 	
 	public void idle() {
 		while (floorReq.isEmpty()) {
 			if (currentLevel != 0) {
+				System.out.println("elevator " + elevatorid + ": going down from " + currentLevel
+						+ " to idle");
+				// debugging print statement
 				goDown();
 			}
 			else {
+				System.out.println("elevator " + elevatorid + ": idling at ground");
+				// debugging print statement
 				direction = Elevator.Direction.IDLE;
 			}
 		}
-		
+		System.out.print("elevator " + elevatorid + ": received request. stopping idling to service");
+		// debugging print statement
 		move();
 		// floors have been added to the elevator's treeset queue so call move to take
 		// care of them
@@ -99,19 +127,25 @@ public class Elevator {
 	
 	private void goUp() {
 		/** moves elevator up a floor*/
+		System.out.println("elevator " + elevatorid + ":" + " moving up from " 
+				+ currentLevel + " to " + destinationLevel);
+		// print statement for debugging
 		direction = Elevator.Direction.UP;
 		currentLevel++;
 	}
 	
 	private void goDown() {
 		/** moves elevator down a floor */
+		System.out.println("elevator " + elevatorid + ":" + " moving down from " 
+				+ currentLevel + " to " + destinationLevel);
+		// print statement for debugging
 		direction = Elevator.Direction.DOWN;
 		currentLevel--;
 	}
 
 	
 	// review to ensure correctness and case-comprehensiveness
-	public class RequestComparator implements Comparator<Request> {
+	private class RequestComparator implements Comparator<Request> {
 		/** comparator for elevator's treeset of requests to allow for correct movements and
 		 * prioritization
 		 */
