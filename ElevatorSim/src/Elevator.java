@@ -36,7 +36,7 @@ public class Elevator {
 		System.out.println("elevator " + elevatorid + "initialized");
 	}
 	
-	
+	/**
 	// instantiation of elevator with prioritization  of top 2 or bottom 2 floors based on arg
 	public Elevator(Sector sect) {
 		priorityFloors = new ArrayList<Integer>();
@@ -50,7 +50,7 @@ public class Elevator {
 			priorityFloors.add(4);
 		}
 	}
-	
+	*/
 	public void addFloor(Request req) {
 		floorReq.add(req);
 		System.out.println(floorReq.toString());
@@ -91,11 +91,13 @@ public class Elevator {
 			if (currentRequest == null || currentRequest != floorReq.first()) {
 				currentRequest = floorReq.first();
 			}
+			
 			if (currentRequest.status == Request.Status.DROPOFF) {
 				// direction of dropoff requests are hardcoded to be correct based on
 				// elevator's current position
 				direction = currentRequest.dir;
 			}
+			
 			destinationLevel = currentRequest.floor;
 			
 			if (currentLevel < destinationLevel) {
@@ -106,7 +108,8 @@ public class Elevator {
 			else if (currentLevel > destinationLevel) {
 				// current request is below elevator's current level,
 				// move elevator down
-				goDown();
+				goDown(false);
+				// go Down with direction set as down
 			}
 			else {
 				// elevator is at request level, request has been satisfied
@@ -115,22 +118,27 @@ public class Elevator {
 				// print statement for debugging
 				
 				floorReq.pollFirst();
-				currentRequest = null;
 				
-				if (floorReq.isEmpty()) {
+				if (floorReq.isEmpty() || currentRequest.status == Request.Status.PICKUP) {
 					// temporarily idle while waiting for another request
-					direction = Direction.IDLE;
 					waiting = true;
 					// if no more requests to process, wait 10 seconds before idling and going to ground
 					try {
-						System.out.println("elevator " + elevatorid + ": no more requests so going to sleep temp"
+						if (floorReq.isEmpty()) {
+							System.out.println("elevator " + elevatorid + ": no more requests so going to sleep temp"
 								+ " before idling");
-						Thread.sleep(10000);
+							direction = Direction.IDLE;
+							Thread.sleep(10000);
+						}
+						else {
+							System.out.println("elevator " + elevatorid + ": waiting for user inside innput");
+							Thread.sleep(3000);
+						}
 					} catch (InterruptedException e) {
 						System.out.println("elevator " + elevatorid + ": thread sleep interrupted to add new request");
 					}
 				}
-				
+				currentRequest = null;
 				
 				waiting = false;
 			}
@@ -164,7 +172,8 @@ public class Elevator {
 				System.out.println("elevator " + elevatorid + ": going down from " + currentLevel
 						+ " to idle");
 				// debugging print statement
-				goDown();
+				goDown(true);
+				// calls go down with direction setting as idle
 				updateUI();
 			}
 			else {
@@ -199,7 +208,7 @@ public class Elevator {
 	
 
 	/** moves elevator down a floor */
-	private void goDown() {
+	private void goDown(boolean fromIdle) {
 		System.out.println("elevator " + elevatorid + ":" + " moving down from " 
 				+ currentLevel + " to " + destinationLevel);
 		try {
@@ -210,7 +219,14 @@ public class Elevator {
 			e.printStackTrace();
 		}
 		// print statement for debugging
-		direction = Elevator.Direction.DOWN;
+		if (fromIdle) {
+			direction = Elevator.Direction.IDLE;
+			// if elevator is going down during idling behavior, direction should be idle so can be
+			// interpreted as allocate-able by elevatorconntroller
+		}
+		else {
+			direction = Elevator.Direction.DOWN;
+		}
 		currentLevel--;
 	}
 

@@ -10,8 +10,7 @@ public class ElevatorController {
 	Thread inputProcessor, leftThread, rightThread;
 	Elevator left, right;
 	long leftpid, rightpid;
-	boolean alternate;
-	// flag for choosing which elevator to allocate to in idle tie
+	
 	
 	// two elevators present in  system
 /**
@@ -42,7 +41,6 @@ public class ElevatorController {
 		super();
 		System.out.println("ElevatorController initialized");
 		requests = new ArrayList<Request>();
-		alternate = false;
 		left = new Elevator();
 		right = new Elevator();
 		leftThread = new Thread(new Runnable() {
@@ -110,15 +108,34 @@ public class ElevatorController {
 		if (leftdir == Elevator.Direction.IDLE 
 				&& rightdir == Elevator.Direction.IDLE) {
 			// if both idle, doesnt matter, give to left
-			if (alternate) {
+			int leftDifference = Math.max(req.floor, leftLevel) - Math.min(req.floor, leftLevel);
+			int rightDifference = Math.max(req.floor, rightLevel) - Math.min(req.floor, rightLevel);
+			if (leftDifference < rightDifference){
+				// finds difference between arg request's floor and elevator's eventual destination floor, gives
+				// to the one that has smaller difference (closer)
+				left.addFloor(req);
+				System.out.println("request give to elevator " + left.elevatorid + "since idle and closer");
+			}
+			else if (leftDifference > rightDifference){
 				right.addFloor(req);
-				System.out.println("request given to idle elevator " + right.elevatorid);
+				System.out.println("request give to elevator " + right.elevatorid + "since idle and closer");
 			}
 			else {
-				left.addFloor(req);
-				System.out.println("request given to idle elevator " + left.elevatorid);
+				if (leftLevel == 1) {
+					right.addFloor(req);
+				}
+				else if (rightLevel == 1) {
+					left.addFloor(req);
+				}
+				else {
+					if (left.floorReq.size() > right.floorReq.size()) {
+						right.addFloor(req);
+					}
+					else {
+						left.addFloor(req);
+					}
+				}
 			}
-			alternate = !alternate;
 		}
 		
 		else if (leftdir == req.dir) {
