@@ -10,6 +10,7 @@ public class ElevatorController {
 	public volatile ArrayList<Request> requests;
 	Thread inputProcessor, leftThread, rightThread;
 	Elevator left, right;
+	long leftpid, rightpid;
 	// two elevators present in  system
 
 	public static void main(String[] args) {
@@ -61,6 +62,9 @@ public class ElevatorController {
 		System.out.println("Input processing thread initialized");
 		leftThread.start();
 		rightThread.start();
+		leftpid = leftThread.getId();
+		rightpid = rightThread.getId();
+		// processids to discern between thread processes
 		inputProcessor.start();
 	}
 
@@ -123,7 +127,7 @@ public class ElevatorController {
 				else {
 					// if request is behind left elevator on the elevator's path upward, determine which
 					// elevator to add to based on the closeness of each elevator's eventual destination floor
-					if (left.currentRequest.floor == 0) {
+					if ((req.dir == Elevator.Direction.UP)) {
 						return 0;
 					}
 				}

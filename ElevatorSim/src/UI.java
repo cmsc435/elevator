@@ -17,6 +17,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
 import java.awt.Canvas;
 import javax.swing.border.LineBorder;
+import javax.swing.Box;
+import javax.swing.JTextField;
 
 
 public class UI extends JFrame {
@@ -25,7 +27,9 @@ public class UI extends JFrame {
 	static ElevatorController control;
 	static Elevator left;
 	static Elevator right;
-	
+	public static JTextField e1_text;
+	public static JTextField e2_text;
+
 	/** left elevator is e1, right elevator is e2 in regards to button naming and association */
 
 	/**
@@ -48,9 +52,9 @@ public class UI extends JFrame {
 			}
 		});
 	}
-	
-	
-	
+
+
+
 
 	/**
 	 * Create the frame.
@@ -369,9 +373,9 @@ public class UI extends JFrame {
 				control.addRequest(request);
 				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
-				
+
 			}
-			
+
 		});
 		panel.add(f4_down_button);
 
@@ -415,7 +419,7 @@ public class UI extends JFrame {
 				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
 			}
-			
+
 		});
 		panel_3.add(f3_up_button);
 
@@ -432,9 +436,9 @@ public class UI extends JFrame {
 				control.addRequest(request);
 				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
-				
+
 			}
-			
+
 		});
 		panel_3.add(f3_down_button);
 
@@ -457,9 +461,9 @@ public class UI extends JFrame {
 				control.addRequest(request);
 				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
-				
+
 			}
-			
+
 		});
 		panel_4.add(f2_up_button);
 
@@ -476,9 +480,9 @@ public class UI extends JFrame {
 				control.addRequest(request);
 				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
-				
+
 			}
-			
+
 		});
 		panel_4.add(f2_down_button);
 
@@ -501,11 +505,56 @@ public class UI extends JFrame {
 				control.addRequest(request);
 				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
-				
+
 			}
-			
+
 		});
 		panel_5.add(f1_up_button);
+
+		Box verticalBox = Box.createVerticalBox();
+		verticalBox.setBounds(28, 182, 58, 65);
+		contentPane.add(verticalBox);
+
+		e1_text = new JTextField();
+		e1_text.setHorizontalAlignment(SwingConstants.CENTER);
+		e1_text.setEditable(false);
+		e1_text.setText("G");
+		verticalBox.add(e1_text);
+		e1_text.setColumns(5);
+
+		e2_text = new JTextField();
+		e2_text.setText("G");
+		e2_text.setHorizontalAlignment(SwingConstants.CENTER);
+		e2_text.setEditable(false);
+		e2_text.setColumns(5);
+		e2_text.setBounds(548, 182, 58, 65);
+		contentPane.add(e2_text);
+
+
+
+	}
+
+	// Used to change the floor displayed to the user in the GUI
+	static void changeFloorDisplay(JTextField tf, int i ){
+
+		switch(i){
+
+		case 1:
+			tf.setText("G");
+			break;
+		case 2:
+			tf.setText("2");
+			break;
+		case 3:
+			tf.setText("3");
+			break;
+		case 4:
+			tf.setText("4");
+			break;
+		default:
+			break;
+		}
+
 
 	}
 }

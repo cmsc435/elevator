@@ -13,6 +13,7 @@ public class Elevator {
 	public volatile Direction direction;
 	public ArrayList<Integer> priorityFloors;
 	public RequestComparator comp;
+	public boolean waiting = false;
 	
 	
 	
@@ -26,7 +27,7 @@ public class Elevator {
 	
 	// normal instantiation of elevator without prioritization
 	public Elevator() {
-		currentLevel = 0; //should be initialized if we figure out what the default level is
+		currentLevel = 1; //should be initialized if we figure out what the default level is
 		comp = new RequestComparator();
 		floorReq = new TreeSet<Request>(comp);
 		/** need to implement comparator to sort requests in treeset based on request status
@@ -55,6 +56,17 @@ public class Elevator {
 	
 	public void addFloor(Request req) {
 		floorReq.add(req);
+		// determines if elevator being added to is currently waiting for more requests
+		// before idling; if so, interrupts thread's sleep to service new requests
+		// must sort out which elevator it is as well
+		if (this.waiting && UI.control.left == this) {
+			UI.control.leftThread.interrupt();
+		}
+		else {
+			if (this.waiting) {
+				UI.control.rightThread.interrupt();
+			}
+		}
 	}
 
 	
@@ -75,8 +87,10 @@ public class Elevator {
 	 */
 	public void move() {
 		while (!floorReq.isEmpty()) {
-			currentRequest = floorReq.pollFirst();
-			direction = currentRequest.dir;
+			System.out.println("elevator " + elevatorid + ": currently at " + currentLevel);
+			if (currentRequest == null) {
+				currentRequest = floorReq.first();
+			}
 			destinationLevel = currentRequest.floor;
 			if (currentLevel < destinationLevel) {
 				// current request is above elevator's current level,
@@ -93,24 +107,51 @@ public class Elevator {
 				System.out.println("elevator " + elevatorid + ": at floor " + currentLevel + " to " 
 				+ currentRequest.status.toString() + " request at floor " + destinationLevel);
 				// print statement for debugging
-				floorReq.remove(currentRequest);
+				floorReq.pollFirst();
 				currentRequest = null;
 				
+				if (floorReq.isEmpty()) {
+					// temporarily idle while waiting for another request
+					direction = Direction.IDLE;
+					waiting = true;
+					// if no more requests to process, wait 10 seconds before idling and going to ground
+					try {
+						System.out.println("elevator " + elevatorid + ": no more requests so going to sleep temp"
+								+ " before idling");
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+						System.out.println("elevator " + elevatorid + ": thread sleep interrupted to add new request");
+					}
+				}
+				waiting = false;
 			}
-			System.out.println("elevator " + elevatorid + ": currently at " + currentLevel);
+			updateUI();
 		}
 		System.out.println("elevator " + elevatorid + ": out of requests. commencing idling");
 		idle();
 	}
 	
+	/** changes text boxes in UI to reflect current levels of elevators to user**/
+	private void updateUI() {
+		if (Thread.currentThread().getId() == UI.control.leftpid) {
+			UI.changeFloorDisplay(UI.e1_text, currentLevel);
+		}
+		else {
+			UI.changeFloorDisplay(UI.e2_text, currentLevel);
+		}
+		
+	}
+
+
 	public void idle() {
 		while (floorReq.isEmpty()) {
-			destinationLevel = 0;
-			if (currentLevel != 0) {
+			destinationLevel = 1;
+			if (currentLevel != 1) {
 				System.out.println("elevator " + elevatorid + ": going down from " + currentLevel
 						+ " to idle");
 				// debugging print statement
 				goDown();
+				updateUI();
 			}
 			else {
 				//System.out.println("elevator " + elevatorid + ": idling at ground");
@@ -130,6 +171,13 @@ public class Elevator {
 		/** moves elevator up a floor*/
 		System.out.println("elevator " + elevatorid + ":" + " moving up from " 
 				+ currentLevel + " to " + destinationLevel);
+		try {
+			Thread.sleep(5000);
+			// pausing thread execution to simulate length of time in elevator's floor traversal
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// print statement for debugging
 		direction = Elevator.Direction.UP;
 		currentLevel++;
@@ -139,6 +187,13 @@ public class Elevator {
 		/** moves elevator down a floor */
 		System.out.println("elevator " + elevatorid + ":" + " moving down from " 
 				+ currentLevel + " to " + destinationLevel);
+		try {
+			Thread.sleep(5000);
+			// pausing thread execution to simulate length of time in elevator's floor traversal
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// print statement for debugging
 		direction = Elevator.Direction.DOWN;
 		currentLevel--;
