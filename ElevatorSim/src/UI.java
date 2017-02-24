@@ -24,6 +24,7 @@ public class UI extends JFrame {
 	static ElevatorController control;
 	static Elevator left;
 	static Elevator right;
+	
 	/** left elevator is e1, right elevator is e2 in regards to button naming and association */
 
 	/**
@@ -46,6 +47,9 @@ public class UI extends JFrame {
 			}
 		});
 	}
+	
+	
+	
 
 	/**
 	 * Create the frame.

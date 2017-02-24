@@ -5,12 +5,12 @@ import java.util.TreeSet;
 public class Elevator {
 	
 	
-	public TreeSet<Request> floorReq;
-	public int elevatorid;
-	public int currentLevel;
-	public Request currentRequest;
-	public int destinationLevel;
-	public Direction direction;
+	public volatile TreeSet<Request> floorReq;
+	public volatile int elevatorid;
+	public volatile int currentLevel;
+	public volatile Request currentRequest;
+	public volatile int destinationLevel;
+	public volatile Direction direction;
 	public ArrayList<Integer> priorityFloors;
 	public RequestComparator comp;
 	
@@ -97,6 +97,7 @@ public class Elevator {
 				currentRequest = null;
 				
 			}
+			System.out.println("elevator " + elevatorid + ": currently at " + currentLevel);
 		}
 		System.out.println("elevator " + elevatorid + ": out of requests. commencing idling");
 		idle();
@@ -104,6 +105,7 @@ public class Elevator {
 	
 	public void idle() {
 		while (floorReq.isEmpty()) {
+			destinationLevel = 0;
 			if (currentLevel != 0) {
 				System.out.println("elevator " + elevatorid + ": going down from " + currentLevel
 						+ " to idle");

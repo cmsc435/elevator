@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 
 public class ElevatorController {
-	ArrayList<Request> requests;
+	public volatile ArrayList<Request> requests;
 	Thread inputProcessor, leftThread, rightThread;
 	Elevator left, right;
 	// two elevators present in  system
@@ -39,7 +39,6 @@ public class ElevatorController {
 		super();
 		System.out.println("ElevatorController initialized");
 		requests = new ArrayList<Request>();
-		inputProcessor = new Thread(new InputProcessor(), "Input Processor");
 		left = new Elevator();
 		right = new Elevator();
 		leftThread = new Thread(new Runnable() {
@@ -58,6 +57,7 @@ public class ElevatorController {
 			}
 			
 		});
+		inputProcessor = new Thread(new InputProcessor());
 		System.out.println("Input processing thread initialized");
 		leftThread.start();
 		rightThread.start();
@@ -68,7 +68,7 @@ public class ElevatorController {
 	 * and later delegates them to individual elevators based on their 
 	 * position and curr direction in allocRequest
 	 */
-	public void addRequest(Request req) {
+	public synchronized void addRequest(Request req) {
 		System.out.println("request being added to elevatorcontroller arraylist");
 		requests.add(req);
 		
@@ -139,24 +139,23 @@ public class ElevatorController {
 	}
 	
 	
+	public class InputProcessor implements Runnable {
 
-public class InputProcessor implements Runnable {
-
-	@Override
-	public void run() {
-		// infinitely checks if any requests have been made 
-		// and allocates them to an elevator if so
-		System.out.println("ElevatorController started inputprocessor thread");
-		while(true) {
-			if (!(requests.isEmpty())) {
-				System.out.println("calling allocation of next request");
-				int errChck = allocRequest(requests.remove(0));
-				// take care of error checking potentially
+		@Override
+		public void run() {
+			// infinitely checks if any requests have been made 
+			// and allocates them to an elevator if so
+			System.out.println("ElevatorController started inputprocessor thread");
+			while(true) {
+				if (!(requests.isEmpty())) {
+					System.out.println("calling allocation of next request");
+					int errChck = UI.control.allocRequest(requests.remove(0));
+					// take care of error checking potentially
+				}
 			}
 		}
-	}
 
-}
+	}
 }
 	
 
