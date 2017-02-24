@@ -36,7 +36,6 @@ public class Elevator {
 		currentRequest = null;
 		elevatorid = this.hashCode();
 		System.out.println("elevator " + elevatorid + "initialized");
-		idle();
 	}
 	
 	
@@ -112,12 +111,12 @@ public class Elevator {
 				goDown();
 			}
 			else {
-				System.out.println("elevator " + elevatorid + ": idling at ground");
+				//System.out.println("elevator " + elevatorid + ": idling at ground");
 				// debugging print statement
 				direction = Elevator.Direction.IDLE;
 			}
 		}
-		System.out.print("elevator " + elevatorid + ": received request. stopping idling to service");
+		System.out.println("elevator " + elevatorid + ": received request. stopping idling to service");
 		// debugging print statement
 		move();
 		// floors have been added to the elevator's treeset queue so call move to take

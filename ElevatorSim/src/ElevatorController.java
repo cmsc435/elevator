@@ -8,10 +8,31 @@ import java.util.ArrayList;
 
 public class ElevatorController {
 	ArrayList<Request> requests;
-	Thread inputProcessor;
+	Thread inputProcessor, leftThread, rightThread;
 	Elevator left, right;
 	// two elevators present in  system
 
+	public static void main(String[] args) {
+		ElevatorController control = new ElevatorController();
+		for (int i = 0; i < 5; i++) {
+			Request req;
+			if (i < 4) {
+				req = new Request(i, Elevator.Direction.UP, Request.Status.PICKUP);
+			}
+			else {
+				req = new Request(i, Elevator.Direction.DOWN, Request.Status.PICKUP);
+			}
+			control.addRequest(req);
+		}
+		Request req = new Request(2, Elevator.Direction.UP, Request.Status.DROPOFF);
+		try {
+			control.addDropRequest(req);
+		}
+		catch (Exception e) {
+			
+		}
+	}
+	
 	
 	public ElevatorController() {
 		// takes in all requests into treeset then delegates them to individual elevators
@@ -19,18 +40,35 @@ public class ElevatorController {
 		System.out.println("ElevatorController initialized");
 		requests = new ArrayList<Request>();
 		inputProcessor = new Thread(new InputProcessor(), "Input Processor");
-		System.out.println("Input processing thread initialized");
 		left = new Elevator();
 		right = new Elevator();
-		inputProcessor.run();
-		System.out.println("ElevatorController started inputprocessor thread");
+		leftThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				left.idle();
+			}
+			
+		});
+		rightThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				right.idle();
+			}
+			
+		});
+		System.out.println("Input processing thread initialized");
+		leftThread.start();
+		rightThread.start();
+		inputProcessor.start();
 	}
 
 	/** takes in up/down floor requests (outside elevator) from UI class 
 	 * and later delegates them to individual elevators based on their 
 	 * position and curr direction in allocRequest
 	 */
-	public void addRequest(Request req) {
+	public synchronized void addRequest(Request req) {
 		requests.add(req);
 		
 	}
@@ -39,7 +77,7 @@ public class ElevatorController {
 	 * and delegates them to elevator given in request object param,
 	 * not allocated based on allocRequest algorithm
 	 */
-	public void addDropRequest(Request req) throws Exception {
+	public synchronized void addDropRequest(Request req) throws Exception {
 		if (req.toDropOff != null) {
 			req.toDropOff.addFloor(req);
 		}
@@ -89,6 +127,9 @@ public class ElevatorController {
 					}
 				}
 			}
+			else {
+				
+			}
 		}
 		else {
 			return 0;
@@ -104,6 +145,7 @@ public class InputProcessor implements Runnable {
 	public void run() {
 		// infinitely checks if any requests have been made 
 		// and allocates them to an elevator if so
+		System.out.println("ElevatorController started inputprocessor thread");
 		while(true) {
 			while (!requests.isEmpty()) {
 				System.out.println("calling allocation of next request");

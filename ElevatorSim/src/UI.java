@@ -33,9 +33,11 @@ public class UI extends JFrame {
 		control = new ElevatorController();
 		left = control.left;
 		right = control.right;
+		System.out.println("about to eventqueue invokelater");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					System.out.println("inside eventqueue runnable");
 					UI frame = new UI();
 					frame.setVisible(true);
 				} catch (Exception e) {
