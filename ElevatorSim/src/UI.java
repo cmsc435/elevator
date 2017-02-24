@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JToggleButton;
 import java.awt.Canvas;
+import javax.swing.border.LineBorder;
 
 
 public class UI extends JFrame {
@@ -56,14 +57,15 @@ public class UI extends JFrame {
 	 */
 	public UI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 537, 625);
+		setBounds(100, 100, 632, 504);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel four_one_inside = new JPanel();
-		four_one_inside.setBounds(125, 149, 58, 39);
+		four_one_inside.setBorder(new LineBorder(new Color(0, 0, 0)));
+		four_one_inside.setBounds(115, 149, 58, 39);
 		contentPane.add(four_one_inside);
 		four_one_inside.setLayout(null);
 
@@ -73,7 +75,8 @@ public class UI extends JFrame {
 		four_one_inside.add(e1_f4_down);
 
 		JPanel four_two_inside = new JPanel();
-		four_two_inside.setBounds(353, 149, 58, 39);
+		four_two_inside.setBorder(new LineBorder(new Color(0, 0, 0)));
+		four_two_inside.setBounds(463, 149, 58, 39);
 		contentPane.add(four_two_inside);
 		four_two_inside.setLayout(null);
 
@@ -83,7 +86,8 @@ public class UI extends JFrame {
 		four_two_inside.add(e2_f4_down);
 
 		JPanel three_one_inside = new JPanel();
-		three_one_inside.setBounds(125, 200, 58, 76);
+		three_one_inside.setBorder(new LineBorder(new Color(0, 0, 0)));
+		three_one_inside.setBounds(115, 200, 58, 76);
 		contentPane.add(three_one_inside);
 		three_one_inside.setLayout(null);
 
@@ -101,7 +105,8 @@ public class UI extends JFrame {
 		three_one_inside.add(e1_f3_down);
 
 		JPanel three_two_inside = new JPanel();
-		three_two_inside.setBounds(353, 200, 58, 76);
+		three_two_inside.setBorder(new LineBorder(new Color(0, 0, 0)));
+		three_two_inside.setBounds(463, 200, 58, 76);
 		contentPane.add(three_two_inside);
 		three_two_inside.setLayout(null);
 
@@ -115,7 +120,8 @@ public class UI extends JFrame {
 		three_two_inside.add(e2_f3_down);
 
 		JPanel two_one_inside = new JPanel();
-		two_one_inside.setBounds(125, 288, 58, 76);
+		two_one_inside.setBorder(new LineBorder(new Color(0, 0, 0)));
+		two_one_inside.setBounds(115, 288, 58, 76);
 		contentPane.add(two_one_inside);
 		two_one_inside.setLayout(null);
 
@@ -129,7 +135,8 @@ public class UI extends JFrame {
 		two_one_inside.add(e1_f2_down);
 
 		JPanel two_two_inside = new JPanel();
-		two_two_inside.setBounds(353, 288, 58, 76);
+		two_two_inside.setBorder(new LineBorder(new Color(0, 0, 0)));
+		two_two_inside.setBounds(463, 288, 58, 76);
 		contentPane.add(two_two_inside);
 		two_two_inside.setLayout(null);
 
@@ -143,7 +150,8 @@ public class UI extends JFrame {
 		two_two_inside.add(e2_f2_down);
 
 		JPanel e1_inside_panel = new JPanel();
-		e1_inside_panel.setBounds(72, 63, 165, 74);
+		e1_inside_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		e1_inside_panel.setBounds(60, 63, 165, 74);
 		contentPane.add(e1_inside_panel);
 
 		JButton e1_1_button = new JButton("1");
@@ -237,7 +245,8 @@ public class UI extends JFrame {
 		e1_inside_panel.add(e1_4_button);
 
 		JPanel e2_inside_panel = new JPanel();
-		e2_inside_panel.setBounds(298, 63, 165, 74);
+		e2_inside_panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		e2_inside_panel.setBounds(408, 63, 165, 74);
 		contentPane.add(e2_inside_panel);
 
 		JButton e2_1_button = new JButton("1");
@@ -333,16 +342,17 @@ public class UI extends JFrame {
 		JLabel e1_label = new JLabel("Elevator 1");
 		e1_label.setBackground(Color.DARK_GRAY);
 		e1_label.setHorizontalAlignment(SwingConstants.CENTER);
-		e1_label.setBounds(72, 11, 165, 39);
+		e1_label.setBounds(60, 11, 165, 39);
 		contentPane.add(e1_label);
 
 		JLabel e2_label = new JLabel("Elevator 2");
 		e2_label.setHorizontalAlignment(SwingConstants.CENTER);
-		e2_label.setBounds(298, 11, 165, 39);
+		e2_label.setBounds(408, 12, 165, 39);
 		contentPane.add(e2_label);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(207, 149, 119, 39);
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(258, 149, 119, 39);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -366,7 +376,8 @@ public class UI extends JFrame {
 		panel.add(f4_down_button);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(125, 376, 58, 39);
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_1.setBounds(115, 376, 58, 39);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -375,7 +386,8 @@ public class UI extends JFrame {
 		panel_1.add(e1_f1_up);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(353, 376, 58, 39);
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_2.setBounds(463, 376, 58, 39);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 
@@ -384,7 +396,8 @@ public class UI extends JFrame {
 		panel_2.add(e2_f1_up);
 
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(207, 200, 119, 76);
+		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_3.setBounds(258, 200, 119, 76);
 		contentPane.add(panel_3);
 		panel_3.setLayout(null);
 
@@ -401,7 +414,6 @@ public class UI extends JFrame {
 				control.addRequest(request);
 				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
-				
 			}
 			
 		});
@@ -427,7 +439,8 @@ public class UI extends JFrame {
 		panel_3.add(f3_down_button);
 
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(207, 288, 119, 76);
+		panel_4.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_4.setBounds(258, 288, 119, 76);
 		contentPane.add(panel_4);
 		panel_4.setLayout(null);
 
@@ -470,7 +483,8 @@ public class UI extends JFrame {
 		panel_4.add(f2_down_button);
 
 		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(207, 376, 119, 39);
+		panel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel_5.setBounds(258, 376, 119, 39);
 		contentPane.add(panel_5);
 		panel_5.setLayout(null);
 
@@ -492,7 +506,6 @@ public class UI extends JFrame {
 			
 		});
 		panel_5.add(f1_up_button);
-
 
 	}
 }
