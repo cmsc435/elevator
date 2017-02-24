@@ -12,7 +12,7 @@ public class ElevatorController {
 	Elevator left, right;
 	long leftpid, rightpid;
 	// two elevators present in  system
-
+/**
 	public static void main(String[] args) {
 		ElevatorController control = new ElevatorController();
 		for (int i = 0; i < 5; i++) {
@@ -33,7 +33,7 @@ public class ElevatorController {
 			
 		}
 	}
-	
+	*/
 	
 	public ElevatorController() {
 		// takes in all requests into treeset then delegates them to individual elevators
@@ -82,12 +82,9 @@ public class ElevatorController {
 	 * and delegates them to elevator given in request object param,
 	 * not allocated based on allocRequest algorithm
 	 */
-	public synchronized void addDropRequest(Request req) throws Exception {
+	public synchronized void addDropRequest(Request req) {
 		if (req.toDropOff != null) {
 			req.toDropOff.addFloor(req);
-		}
-		else {
-			throw new Exception("pickup request given to dropoff add method");
 		}
 	}
 	

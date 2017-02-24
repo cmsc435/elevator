@@ -161,20 +161,16 @@ public class UI extends JFrame {
 		JButton e1_1_button = new JButton("1");
 		e1_1_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
 				Elevator.Direction dir = left.direction;
 				if (left.currentLevel > 1) {
 					dir = Elevator.Direction.DOWN;
 				}
-				Request request = new Request(1, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(1, Request.Status.DROPOFF, dir, left);
 				// hardcoded based on button name
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+				// call special dropoff request method to send to specific elevator
+				System.out.println("left elevator " + left.elevatorid + ": dropoff on 1st floor requested");
 			}
 		});
 		e1_inside_panel.add(e1_1_button);
@@ -182,7 +178,6 @@ public class UI extends JFrame {
 		JButton e1_2_button = new JButton("2");
 		e1_2_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
 				Elevator.Direction dir = left.direction;
 				if (left.currentLevel > 2) {
 					dir = Elevator.Direction.DOWN;
@@ -190,15 +185,13 @@ public class UI extends JFrame {
 				else if (left.currentLevel < 2) {
 					dir = Elevator.Direction.UP;
 				}
-				Request request = new Request(2, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(2, Request.Status.DROPOFF, dir, left);
 				// hardcoded based on button name
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+
+				// call special dropoff request method to send to specific elevator
+				System.out.println("left elevator " + left.elevatorid + ": dropoff on 2nd floor requested");
 			}
 		});
 		e1_inside_panel.add(e1_2_button);
@@ -206,7 +199,7 @@ public class UI extends JFrame {
 		JButton e1_3_button = new JButton("3");
 		e1_3_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
+				
 				Elevator.Direction dir = left.direction;
 				if (left.currentLevel > 3) {
 					dir = Elevator.Direction.DOWN;
@@ -214,15 +207,12 @@ public class UI extends JFrame {
 				else if (left.currentLevel < 3) {
 					dir = Elevator.Direction.UP;
 				}
-				Request request = new Request(3, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(3, Request.Status.DROPOFF, dir, left);
 				// hardcoded based on button name
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+				// call special dropoff request method to send to specific elevator
+				System.out.println("left elevator " + left.elevatorid + ": dropoff on 3rd floor requested");
 			}
 		});
 		e1_inside_panel.add(e1_3_button);
@@ -230,20 +220,16 @@ public class UI extends JFrame {
 		JButton e1_4_button = new JButton("4");
 		e1_4_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
 				Elevator.Direction dir = left.direction;
 				if (left.currentLevel < 4) {
 					dir = Elevator.Direction.UP;
 				}
-				Request request = new Request(4, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(4, Request.Status.DROPOFF, dir, left);
 				// hardcoded based on button name
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+				// call special dropoff request method to send to specific elevator
+				System.out.println("left elevator " + left.elevatorid + ": dropoff on 4th floor requested");
 			}
 		});
 		e1_inside_panel.add(e1_4_button);
@@ -256,20 +242,16 @@ public class UI extends JFrame {
 		JButton e2_1_button = new JButton("1");
 		e2_1_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
 				Elevator.Direction dir = right.direction;
 				if (right.currentLevel > 1) {
 					dir = Elevator.Direction.DOWN;
 				}
-				Request request = new Request(1, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(1, Request.Status.DROPOFF, dir, right);
 				// hardcoded based on button name
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+				// call special dropoff request method to send to specific elevator
+				System.out.println("right elevator " + right.elevatorid + ": dropoff on 1st floor requested");
 			}
 		});
 		e2_inside_panel.add(e2_1_button);
@@ -277,7 +259,6 @@ public class UI extends JFrame {
 		JButton e2_2_button = new JButton("2");
 		e2_2_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
 				Elevator.Direction dir = right.direction;
 				if (right.currentLevel > 2) {
 					dir = Elevator.Direction.DOWN;
@@ -285,15 +266,12 @@ public class UI extends JFrame {
 				else if (right.currentLevel < 2) {
 					dir = Elevator.Direction.UP;
 				}
-				Request request = new Request(2, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(2, Request.Status.DROPOFF, dir, right);
 				// hardcoded based on button name
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+				// call special dropoff request method to send to specific elevator
+				System.out.println("right elevator " + right.elevatorid + ": dropoff on 2nd floor requested");
 			}
 		});
 		e2_inside_panel.add(e2_2_button);
@@ -301,7 +279,6 @@ public class UI extends JFrame {
 		JButton e2_3_button = new JButton("3");
 		e2_3_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
 				Elevator.Direction dir = right.direction;
 				if (right.currentLevel > 3) {
 					dir = Elevator.Direction.DOWN;
@@ -309,15 +286,12 @@ public class UI extends JFrame {
 				else if (right.currentLevel < 3) {
 					dir = Elevator.Direction.UP;
 				}
-				Request request = new Request(3, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(3, Request.Status.DROPOFF, dir, right);
 				// hardcoded based on button name
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+				// call special dropoff request method to send to specific elevator
+				System.out.println("right elevator " + right.elevatorid + ": dropoff on 3rd floor requested");
 			}
 		});
 		e2_inside_panel.add(e2_3_button);
@@ -325,20 +299,16 @@ public class UI extends JFrame {
 		JButton e2_4_button = new JButton("4");
 		e2_4_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// for inside buttons not outside
 				Elevator.Direction dir = right.direction;
 				if (right.currentLevel < 4) {
 					dir = Elevator.Direction.UP;
 				}
-				Request request = new Request(4, dir, Request.Status.DROPOFF);
+				
+				Request request = new Request(4, Request.Status.DROPOFF, dir, right);
 				// hardcoded based on button name and current elevator position for directional info
-				try {
-					control.addDropRequest(request);
-				}
-				catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				// push request to elevatorcontroller to be delegated to elevators
+				control.addDropRequest(request);
+				// call special dropoff request method to send to specific elevator
+				System.out.println("right elevator " + right.elevatorid + ": dropoff on 4th floor requested");
 			}
 		});
 		e2_inside_panel.add(e2_4_button);
@@ -511,46 +481,67 @@ public class UI extends JFrame {
 		});
 		panel_5.add(f1_up_button);
 
-		Box verticalBox = Box.createVerticalBox();
-		verticalBox.setBounds(28, 182, 58, 65);
-		contentPane.add(verticalBox);
-
-		e1_text = new JTextField();
-		e1_text.setHorizontalAlignment(SwingConstants.CENTER);
-		e1_text.setEditable(false);
-		e1_text.setText("G");
-		verticalBox.add(e1_text);
-		e1_text.setColumns(5);
-
+		// set initial positions for elevator animation text boxes
 		e2_text = new JTextField();
 		e2_text.setText("G");
 		e2_text.setHorizontalAlignment(SwingConstants.CENTER);
 		e2_text.setEditable(false);
 		e2_text.setColumns(5);
-		e2_text.setBounds(548, 182, 58, 65);
+		e2_text.setBounds(542, 360, 47, 55);
 		contentPane.add(e2_text);
+
+		e1_text = new JTextField();
+		e1_text.setBounds(26, 360, 47, 55);
+		contentPane.add(e1_text);
+		e1_text.setHorizontalAlignment(SwingConstants.CENTER);
+		e1_text.setEditable(false);
+		e1_text.setText("G");
+		e1_text.setColumns(5);
 
 
 
 	}
 
 	// Used to change the floor displayed to the user in the GUI
-	static void changeFloorDisplay(JTextField tf, int i ){
+	static void changeFloorDisplay(JTextField tf, int i){
 
 		switch(i){
 
 		case 1:
+			// change text box's position to ground position in GUI
+			if (tf == e1_text)
+				e1_text.setBounds(26, 360, 47, 55);
+			else
+				e2_text.setBounds(542, 360, 47, 55);
 			tf.setText("G");
 			break;
 		case 2:
+			// change text box's position to 2nd floor in GUI
+			if (tf == e1_text)
+				e1_text.setBounds(26, 299, 47, 55);
+			else
+				e2_text.setBounds(542, 299, 47, 55);
 			tf.setText("2");
 			break;
+			
 		case 3:
+			// change text box's position to 3rd floor in GUI
+			if (tf == e1_text)
+				e1_text.setBounds(26, 211, 47, 55);
+			else
+				e2_text.setBounds(542, 211, 47, 55);
 			tf.setText("3");
 			break;
+			
 		case 4:
+			// change text box's position to 4th floor in GUI
+			if (tf == e1_text)
+				e1_text.setBounds(26, 139, 47, 55);
+			else
+				e2_text.setBounds(542, 3139, 47, 55);
 			tf.setText("4");
 			break;
+			
 		default:
 			break;
 		}
