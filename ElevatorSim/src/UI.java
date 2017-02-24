@@ -538,7 +538,7 @@ public class UI extends JFrame {
 			if (tf == e1_text)
 				e1_text.setBounds(26, 139, 47, 55);
 			else
-				e2_text.setBounds(542, 3139, 47, 55);
+				e2_text.setBounds(542, 139, 47, 55);
 			tf.setText("4");
 			break;
 			

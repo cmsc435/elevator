@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 
-
 // to do : create code for command line testing functionality of system or get gui working to be
 // able to test against that
 
@@ -11,6 +10,9 @@ public class ElevatorController {
 	Thread inputProcessor, leftThread, rightThread;
 	Elevator left, right;
 	long leftpid, rightpid;
+	boolean alternate;
+	// flag for choosing which elevator to allocate to in idle tie
+	
 	// two elevators present in  system
 /**
 	public static void main(String[] args) {
@@ -40,6 +42,7 @@ public class ElevatorController {
 		super();
 		System.out.println("ElevatorController initialized");
 		requests = new ArrayList<Request>();
+		alternate = false;
 		left = new Elevator();
 		right = new Elevator();
 		leftThread = new Thread(new Runnable() {
@@ -107,36 +110,133 @@ public class ElevatorController {
 		if (leftdir == Elevator.Direction.IDLE 
 				&& rightdir == Elevator.Direction.IDLE) {
 			// if both idle, doesnt matter, give to left
-			left.addFloor(req);
-			System.out.println("request given to idle elevator " + left.elevatorid);
+			if (alternate) {
+				right.addFloor(req);
+				System.out.println("request given to idle elevator " + right.elevatorid);
+			}
+			else {
+				left.addFloor(req);
+				System.out.println("request given to idle elevator " + left.elevatorid);
+			}
+			alternate = !alternate;
 		}
 		
 		else if (leftdir == req.dir) {
 			// if left elevator's direction matches the requests direction
 			if (rightdir != req.dir) {
 				if ((req.dir == Elevator.Direction.UP && leftLevel <= req.floor)
-						|| req.dir == Elevator.Direction.DOWN && leftLevel >= req.floor) {
+						|| (req.dir == Elevator.Direction.DOWN && leftLevel >= req.floor)) {
 					// if request is in the left elevator's path, not behind it, 
 					// and right elevator is going opposite way, then add to left
 					left.addFloor(req);
-					System.out.println("request give to elevator " + left.elevatorid + "since in left up path");
+					System.out.println("request give to elevator " + left.elevatorid + "since in left path");
 				}
 				else {
-					// if request is behind left elevator on the elevator's path upward, determine which
+					// if request is behind left elevator on the elevator's path, determine which
 					// elevator to add to based on the closeness of each elevator's eventual destination floor
-					if ((req.dir == Elevator.Direction.UP)) {
-						return 0;
+					if ((Math.max(req.floor, left.destinationLevel) - Math.min(req.floor, left.destinationLevel)) <
+							(Math.max(req.floor, right.destinationLevel) - Math.min(req.floor, right.destinationLevel))){
+						// finds difference between arg request's floor and elevator's eventual destination floor, gives
+						// to the one that has smaller difference (closer)
+						left.addFloor(req);
+						System.out.println("request give to elevator " + left.elevatorid + "since closer destination"
+								+ " despite being already past request floor");
+					}
+					else {
+						right.addFloor(req);
+						System.out.println("request give to elevator " + right.elevatorid + "since closer destination"
+								+ " despite being in opposite direction");
 					}
 				}
 			}
 			else {
-				
+				if ((req.dir == Elevator.Direction.UP && leftLevel <= req.floor && rightLevel <= leftLevel)
+						|| (req.dir == Elevator.Direction.DOWN && leftLevel >= req.floor 
+						&& rightLevel >= leftLevel)) {
+					left.addFloor(req);
+					System.out.println("request given to idle elevator " + left.elevatorid +" because closer");
+				}
+				else if ((req.dir == Elevator.Direction.UP && rightLevel <= req.floor && leftLevel <= rightLevel)
+						|| (req.dir == Elevator.Direction.DOWN && rightLevel >= req.floor 
+						&& leftLevel >= rightLevel)) {
+					right.addFloor(req);
+					System.out.println("request given to idle elevator " + right.elevatorid +" because closer");
+				}
+				else {
+					if ((Math.max(req.floor, left.destinationLevel) - Math.min(req.floor, left.destinationLevel)) <
+							(Math.max(req.floor, right.destinationLevel) - Math.min(req.floor, right.destinationLevel))){
+						// finds difference between arg request's floor and elevator's eventual destination floor, gives
+						// to the one that has smaller difference (closer)
+						left.addFloor(req);
+						System.out.println("request give to elevator " + left.elevatorid + "since closer destination"
+								+ " despite both past request floor");
+					}
+					else {
+						right.addFloor(req);
+						System.out.println("request give to elevator " + right.elevatorid + "since closer destination"
+								+ " despite both past request floor");
+					}
+				}
+			}
+		}
+		else if (rightdir == req.dir) {
+			// right elevator's direction matches the request's direction
+			if ((req.dir == Elevator.Direction.UP && rightLevel <= req.floor)
+					|| req.dir == Elevator.Direction.DOWN && rightLevel >= req.floor) {
+				// if request is in the right elevator's path, not behind it, 
+				// and left elevator is going opposite way, then add to right
+				right.addFloor(req);
+				System.out.println("request give to elevator " + right.elevatorid + "since in right path");
+			}
+			else {
+				// if request is behind right elevator on the elevator's path, determine which
+				// elevator to add to based on the closeness of each elevator's eventual destination floor
+				if ((Math.max(req.floor, left.destinationLevel) - Math.min(req.floor, left.destinationLevel)) <
+						(Math.max(req.floor, right.destinationLevel) - Math.min(req.floor, right.destinationLevel))){
+					// finds difference between arg request's floor and elevator's eventual destination floor, gives
+					// to the one that has smaller difference (closer)
+					left.addFloor(req);
+					System.out.println("request give to elevator " + left.elevatorid + "since closer destination"
+							+ " despite being in opposite direction");
+				}
+				else {
+					right.addFloor(req);
+					System.out.println("request give to elevator " + right.elevatorid + "since closer destination"
+							+ " despite being already past request floor");
+				}
+			}
+		}
+		else if (rightdir == Elevator.Direction.IDLE) {
+			// since request is not in path of either elevator, if one is idle, allocate to that elev
+			right.addFloor(req);
+		}
+		else if (leftdir == Elevator.Direction.IDLE) {
+			// since request is not in path of either elevator, if one is idle, allocate to that elev
+			left.addFloor(req);
+		}
+		else if (leftdir != req.dir && rightdir != req.dir) {
+			// if neither are going in the direction of the request, use elevator with closest destination
+			// floor of current request
+			if ((Math.max(req.floor, left.destinationLevel) - Math.min(req.floor, left.destinationLevel)) <
+					(Math.max(req.floor, right.destinationLevel) - Math.min(req.floor, right.destinationLevel))){
+				// finds difference between arg request's floor and elevator's eventual destination floor, gives
+				// to the one that has smaller difference (closer)
+				left.addFloor(req);
+				System.out.println("both wrong direct. but request give to elevator " 
+				+ left.elevatorid + "since closer destination");
+			}
+			else {
+				right.addFloor(req);
+				System.out.println("both wrong direct. but request give to elevator " 
+				+ right.elevatorid + "since closer destination");
 			}
 		}
 		else {
+			// if somehow didn't meet any of the cases, return 0 to indicate error
 			return 0;
 		}
-		return 0;
+		// successful allocation
+		return 1;
 	}
 	
 	
@@ -152,8 +252,21 @@ public class ElevatorController {
 					System.out.println("calling allocation of next request");
 					int errChck = UI.control.allocRequest(requests.remove(0));
 					// take care of error checking potentially
+					
+					if (errChck == 0) {
+						try {
+							throwError();
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 				}
 			}
+		}
+
+		private void throwError() throws Exception {
+			throw new Exception("Failed to allocate request");
 		}
 
 	}

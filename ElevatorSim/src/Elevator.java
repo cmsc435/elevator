@@ -91,6 +91,11 @@ public class Elevator {
 			if (currentRequest == null || currentRequest != floorReq.first()) {
 				currentRequest = floorReq.first();
 			}
+			if (currentRequest.status == Request.Status.DROPOFF) {
+				// direction of dropoff requests are hardcoded to be correct based on
+				// elevator's current position
+				direction = currentRequest.dir;
+			}
 			destinationLevel = currentRequest.floor;
 			
 			if (currentLevel < destinationLevel) {
@@ -240,10 +245,10 @@ public class Elevator {
 				// and dest. and in same direction
 				if (arg0.dir == direction && ((arg0.floor > arg1.floor && arg0.floor <= currentLevel)  
 						|| (arg0.floor < arg1.floor && arg0.floor >= currentLevel))) {
-					return 1;
+					return -1;
 				}
 				else {
-					return -1;
+					return 1;
 				}
 			}
 			
