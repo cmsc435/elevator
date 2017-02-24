@@ -349,9 +349,11 @@ public class UI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// for outside buttons not inside
+				System.out.println("floor 4 up button pressed");
 				Request request = new Request(4, Elevator.Direction.DOWN, Request.Status.PICKUP);
 				// hardcoded based on button name
 				control.addRequest(request);
+				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
 				
 			}
@@ -389,9 +391,11 @@ public class UI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// for outside buttons not inside
+				System.out.println("floor 3 up button pressed");
 				Request request = new Request(3, Elevator.Direction.UP, Request.Status.PICKUP);
 				// hardcoded based on button name
 				control.addRequest(request);
+				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
 				
 			}
@@ -406,9 +410,11 @@ public class UI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// for outside buttons not inside
+				System.out.println("floor 3 down button");
 				Request request = new Request(3, Elevator.Direction.DOWN, Request.Status.PICKUP);
 				// hardcoded based on button name
 				control.addRequest(request);
+				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
 				
 			}
@@ -428,9 +434,11 @@ public class UI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// for outside buttons not inside
+				System.out.println("floor 2 up button pressed");
 				Request request = new Request(2, Elevator.Direction.UP, Request.Status.PICKUP);
 				// hardcoded based on button name
 				control.addRequest(request);
+				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
 				
 			}
@@ -445,9 +453,11 @@ public class UI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// for outside buttons not inside
+				System.out.println("floor 2 down button pressed");
 				Request request = new Request(2, Elevator.Direction.DOWN, Request.Status.PICKUP);
 				// hardcoded based on button name
 				control.addRequest(request);
+				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
 				
 			}
@@ -467,9 +477,11 @@ public class UI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// for outside buttons not inside
+				System.out.println("floor 1 up button pressed");
 				Request request = new Request(1, Elevator.Direction.UP, Request.Status.PICKUP);
 				// hardcoded based on button name
 				control.addRequest(request);
+				System.out.println("request added");
 				// push request to elevatorcontroller to be delegated to elevators
 				
 			}

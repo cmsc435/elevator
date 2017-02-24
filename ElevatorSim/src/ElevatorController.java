@@ -68,7 +68,8 @@ public class ElevatorController {
 	 * and later delegates them to individual elevators based on their 
 	 * position and curr direction in allocRequest
 	 */
-	public synchronized void addRequest(Request req) {
+	public void addRequest(Request req) {
+		System.out.println("request being added to elevatorcontroller arraylist");
 		requests.add(req);
 		
 	}
@@ -147,7 +148,7 @@ public class InputProcessor implements Runnable {
 		// and allocates them to an elevator if so
 		System.out.println("ElevatorController started inputprocessor thread");
 		while(true) {
-			while (!requests.isEmpty()) {
+			if (!(requests.isEmpty())) {
 				System.out.println("calling allocation of next request");
 				int errChck = allocRequest(requests.remove(0));
 				// take care of error checking potentially
